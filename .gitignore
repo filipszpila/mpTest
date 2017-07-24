@@ -4,3 +4,4 @@ target/
 .project
 .settings
 maven-status/
+test-output/

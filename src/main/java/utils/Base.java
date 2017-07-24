@@ -1,14 +1,17 @@
-package com.timvroom.mpTest;
+package utils;
+
+import java.awt.GraphicsEnvironment;
+import java.awt.Robot;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class WebDriverProvider {
-
-	private static WebDriver driver;
+public class Base 
+{
+	protected WebDriver driver;
 	
-	public static void init() {
+	public void setUp() {
 		
 		String webBrowser = "chrome";
 		
@@ -26,22 +29,17 @@ public class WebDriverProvider {
 		default:
 			break;
 		}
-
+		
+		try {		
+			int y = (int)GraphicsEnvironment.getLocalGraphicsEnvironment()
+					.getMaximumWindowBounds().getHeight() + 100;
+			new Robot().mouseMove(0,y);	
+		} catch (Exception e) {
+			System.out.println("Exception when moving mouse pointer out of browser window");
+			e.printStackTrace();
+		}
+		
 		driver.manage().deleteAllCookies();
 		driver.manage().window().maximize();
-	}
-	
-	public static WebDriver get() {
-		
-		return driver;
-	}
-	
-	public static void quit() {
-		
-		if(driver != null) {
-		
-			driver.quit();
-			driver = null;
-		}
 	}
 }
